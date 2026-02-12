@@ -1018,6 +1018,27 @@ async def process_large_node_recursively(node, page_list, opt=None, logger=None)
     
     return node
 
+
+def fix_inverted_indices(structure, logger=None):
+    """
+    Recursively fix nodes where start_index > end_index by setting end_index = start_index.
+    This handles potential hallucinations from models like DeepSeek V3.
+    """
+    if isinstance(structure, list):
+        for item in structure:
+            fix_inverted_indices(item, logger)
+    elif isinstance(structure, dict):
+        start = structure.get('start_index')
+        end = structure.get('end_index')
+        if start is not None and end is not None and start > end:
+            if logger:
+                logger.info(f"Fixed inverted indices for '{structure.get('title', 'Unknown')}': start={start}, end={end} -> end={start}")
+            structure['end_index'] = start
+        
+        if 'nodes' in structure:
+            fix_inverted_indices(structure['nodes'], logger)
+    return structure
+
 async def tree_parser(page_list, opt, doc=None, logger=None):
     check_toc_result = check_toc(page_list, opt)
     logger.info(check_toc_result)
@@ -1051,6 +1072,9 @@ async def tree_parser(page_list, opt, doc=None, logger=None):
         for node in toc_tree
     ]
     await asyncio.gather(*tasks)
+    
+    
+    toc_tree = fix_inverted_indices(toc_tree, logger=logger)
     
     return toc_tree
 

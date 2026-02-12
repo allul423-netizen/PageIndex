@@ -26,6 +26,41 @@
   
 </div>
 
+---
+
+## 🚀 DeepSeek V3 Adaptations (New!)
+
+This fork has been specifically optimized for **DeepSeek V3**, addressing its unique characteristics to deliver a more robust and cost-effective experience compared to the original PageIndex:
+
+1. **🛡️ Robust Indexing (Auto-Fix)**:
+    - DeepSeek V3 sometimes "hallucinates" inverted page ranges (e.g., `start: 4, end: 3`).
+    - We implemented a **self-healing mechanism** (`fix_inverted_indices`) that automatically detects and corrects these logical errors, preventing crashes and ensuring reliable retrieval.
+
+2. **⚡ Smart Summarization (Cost-Saver)**:
+    - DeepSeek V3 often generates high-quality summaries "for free" during the initial structure extraction.
+    - We optimized the pipeline to **reuse these existing summaries** instead of blindly regenerating them. This significantly reduces API calls and speeds up processing.
+
+3. **Default Configuration**:
+    - Pre-configured to use `deepseek-ai/DeepSeek-V3` as the default model.
+
+---
+
+## 📊 DeepSeek V3 vs. ChatGPT 4o
+
+Why use DeepSeek V3? Here is a breakdown of our findings:
+
+| Feature | **DeepSeek V3** (This Repo) | **ChatGPT 4o** |
+| :--- | :--- | :--- |
+| **Core Output** | **Structure + Detailed Summary** | **Structure Only** |
+| **Summarization** | **Auto-generated** (High quality, "free") | Requires extra API calls |
+| **Precision** | **Good** (with our auto-fix for occasional index errors) | **Excellent** (Strict adherence to page numbers) |
+| **Granularity** | **Medium** (Good for general sections) | **High** (Better at splitting small code blocks/appendices) |
+| **Cost Efficiency** | **⭐⭐⭐⭐⭐** (API is cheaper + free summaries) | **⭐⭐⭐** (Higher API cost + extra calls for summaries) |
+
+**Conclusion**: For **cost-effective** and **content-rich** RAG applications, DeepSeek V3 is a superior choice when paired with our robustness patches.
+
+---
+
 <details open>
 <summary><h3>📢 Latest Updates</h3></summary>
 

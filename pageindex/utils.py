@@ -622,10 +622,16 @@ async def generate_node_summary(node, model=None):
 
 async def generate_summaries_for_structure(structure, model=None):
     nodes = structure_to_list(structure)
-    tasks = [generate_node_summary(node, model=model) for node in nodes]
+    # Filter nodes that already have a non-empty summary
+    nodes_to_process = [node for node in nodes if not node.get('summary')]
+    
+    if not nodes_to_process:
+        return structure
+
+    tasks = [generate_node_summary(node, model=model) for node in nodes_to_process]
     summaries = await asyncio.gather(*tasks)
     
-    for node, summary in zip(nodes, summaries):
+    for node, summary in zip(nodes_to_process, summaries):
         node['summary'] = summary
     return structure
 
