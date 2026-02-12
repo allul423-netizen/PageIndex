@@ -1039,6 +1039,7 @@ def fix_inverted_indices(structure, logger=None):
             fix_inverted_indices(structure['nodes'], logger)
     return structure
 
+
 async def tree_parser(page_list, opt, doc=None, logger=None):
     check_toc_result = check_toc(page_list, opt)
     logger.info(check_toc_result)
@@ -1076,6 +1077,7 @@ async def tree_parser(page_list, opt, doc=None, logger=None):
     
     toc_tree = fix_inverted_indices(toc_tree, logger=logger)
     
+
     return toc_tree
 
 

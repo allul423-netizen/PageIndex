@@ -17,6 +17,7 @@ import yaml
 from pathlib import Path
 from types import SimpleNamespace as config
 
+<<<<<<< HEAD
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
@@ -25,10 +26,14 @@ def get_encoding_for_model(model):
         return tiktoken.encoding_for_model(model)
     except KeyError:
         return tiktoken.get_encoding("cl100k_base")
+=======
+CHATGPT_API_KEY = os.getenv("CHATGPT_API_KEY")
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
 
 def count_tokens(text, model=None):
     if not text:
         return 0
+<<<<<<< HEAD
     enc = get_encoding_for_model(model)
     tokens = enc.encode(text)
     return len(tokens)
@@ -36,6 +41,15 @@ def count_tokens(text, model=None):
 def ChatGPT_API_with_finish_reason(model, prompt, api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL, chat_history=None):
     max_retries = 10
     client = openai.OpenAI(api_key=api_key, base_url=base_url)
+=======
+    enc = tiktoken.encoding_for_model(model)
+    tokens = enc.encode(text)
+    return len(tokens)
+
+def ChatGPT_API_with_finish_reason(model, prompt, api_key=CHATGPT_API_KEY, chat_history=None):
+    max_retries = 10
+    client = openai.OpenAI(api_key=api_key)
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
     for i in range(max_retries):
         try:
             if chat_history:
@@ -65,9 +79,15 @@ def ChatGPT_API_with_finish_reason(model, prompt, api_key=OPENAI_API_KEY, base_u
 
 
 
+<<<<<<< HEAD
 def ChatGPT_API(model, prompt, api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL, chat_history=None):
     max_retries = 10
     client = openai.OpenAI(api_key=api_key, base_url=base_url)
+=======
+def ChatGPT_API(model, prompt, api_key=CHATGPT_API_KEY, chat_history=None):
+    max_retries = 10
+    client = openai.OpenAI(api_key=api_key)
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
     for i in range(max_retries):
         try:
             if chat_history:
@@ -93,12 +113,20 @@ def ChatGPT_API(model, prompt, api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL,
                 return "Error"
             
 
+<<<<<<< HEAD
 async def ChatGPT_API_async(model, prompt, api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL):
+=======
+async def ChatGPT_API_async(model, prompt, api_key=CHATGPT_API_KEY):
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
     max_retries = 10
     messages = [{"role": "user", "content": prompt}]
     for i in range(max_retries):
         try:
+<<<<<<< HEAD
             async with openai.AsyncOpenAI(api_key=api_key, base_url=base_url) as client:
+=======
+            async with openai.AsyncOpenAI(api_key=api_key) as client:
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
                 response = await client.chat.completions.create(
                     model=model,
                     messages=messages,
@@ -418,7 +446,11 @@ def add_preface_if_needed(data):
 
 
 def get_page_tokens(pdf_path, model="gpt-4o-2024-11-20", pdf_parser="PyPDF2"):
+<<<<<<< HEAD
     enc = get_encoding_for_model(model)
+=======
+    enc = tiktoken.encoding_for_model(model)
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
     if pdf_parser == "PyPDF2":
         pdf_reader = PyPDF2.PdfReader(pdf_path)
         page_list = []
@@ -622,6 +654,7 @@ async def generate_node_summary(node, model=None):
 
 async def generate_summaries_for_structure(structure, model=None):
     nodes = structure_to_list(structure)
+<<<<<<< HEAD
     # Filter nodes that already have a non-empty summary
     nodes_to_process = [node for node in nodes if not node.get('summary')]
     
@@ -632,6 +665,12 @@ async def generate_summaries_for_structure(structure, model=None):
     summaries = await asyncio.gather(*tasks)
     
     for node, summary in zip(nodes_to_process, summaries):
+=======
+    tasks = [generate_node_summary(node, model=model) for node in nodes]
+    summaries = await asyncio.gather(*tasks)
+    
+    for node, summary in zip(nodes, summaries):
+>>>>>>> a061d53fa54db2987920f39a31173be50d14dff3
         node['summary'] = summary
     return structure
 
