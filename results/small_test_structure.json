@@ -1,0 +1,33 @@
+{
+  "doc_name": "small_test",
+  "structure": [
+    {
+      "title": "Test Document",
+      "node_id": "0000",
+      "prefix_summary": "# Test Document\n\nThis is a test document to verify the `pageindex` pipeline.",
+      "line_num": 1,
+      "nodes": [
+        {
+          "title": "Section 1",
+          "node_id": "0001",
+          "prefix_summary": "## Section 1\n\nContent for section 1.",
+          "line_num": 5,
+          "nodes": [
+            {
+              "title": "Subsection 1.1",
+              "node_id": "0002",
+              "summary": "### Subsection 1.1\n\nContent for subsection 1.1.",
+              "line_num": 9
+            }
+          ]
+        },
+        {
+          "title": "Section 2",
+          "node_id": "0003",
+          "summary": "## Section 2\n\nContent for section 2.",
+          "line_num": 13
+        }
+      ]
+    }
+  ]
+}
